@@ -18,7 +18,7 @@ def test_rag_chain_mock():
     mock_llm.invoke.return_value = mock_response
 
     with (
-        patch("src.rag.chains.get_retriever", return_value=mock_retriever),
+        patch("src.rag.chains.get_hybrid_retriever", return_value=mock_retriever),
         patch("src.rag.chains.get_llm", return_value=mock_llm),
     ):
         chain = create_rag_chain()

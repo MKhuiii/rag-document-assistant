@@ -5,7 +5,7 @@ from langchain_core.output_parsers import StrOutputParser
 
 from src.core.llm import get_llm
 from src.rag.prompts import qa_prompt
-from src.rag.retrievers import get_retriever
+from src.rag.retrievers import get_hybrid_retriever
 
 
 def format_docs(docs: list[Document]) -> str:
@@ -17,7 +17,7 @@ def format_docs(docs: list[Document]) -> str:
 
 def create_rag_chain():
     """Khởi tạo RAG Chain bằng LCEL hỗ trợ Chat History."""
-    retriever = get_retriever()
+    retriever = get_hybrid_retriever()
     llm = get_llm()
 
     chain = (
