@@ -1,7 +1,9 @@
 fastapi
+flashrank
 uvicorn
 streamlit
 unstructured
+rank_bm25
 requests
 python-docx
 pypdf
