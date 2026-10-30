@@ -9,7 +9,6 @@
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
 
-
 ## 🌟 Highlights
 
 - **100% Local & Privacy-First:** Chạy hoàn toàn Offline trên máy cá nhân với Ollama (`qwen2.5:7b`, `bge-m3`) và PostgreSQL (`pgvector`), đảm bảo tuyệt đối an toàn dữ liệu.
