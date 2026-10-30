@@ -8,7 +8,6 @@
 ![Ollama](https://img.shields.io/badge/Ollama-Local_LLM-black?logo=ollama)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-> *Your documentation is a direct reflection of your software, so hold it to the same standards.*
 
 
 ## 🌟 Highlights
