@@ -3,7 +3,7 @@ import streamlit as st
 
 from src.config import settings
 
-API_URL = f"${settings.BACKEND_URL}/api/v1"
+API_URL = f"{settings.BACKEND_URL}/api/v1"
 
 st.set_page_config(page_title="Local RAG Assistant", page_icon="🤖", layout="wide")
 st.title("🤖 Trợ Lý Tra Cứu Tài Liệu Cá Nhân (Local RAG)")
