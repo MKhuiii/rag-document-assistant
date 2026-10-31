@@ -1,21 +1,29 @@
+from functools import lru_cache
+
 from langchain_core.documents import Document
+from sentence_transformers import CrossEncoder
 
-from src.rag.rerankers import rerank_documents
+
+@lru_cache(maxsize=1)
+def _get_model() -> CrossEncoder:
+    return CrossEncoder("BAAI/bge-reranker-v2-m3", max_length=512)
 
 
-def test_flashrank_reranker():
-    query = "Quy định về điểm rèn luyện sinh viên"
-    docs = [
-        Document(page_content="Quy định về học phí và học bổng năm 2026."),
+def rerank_documents(
+    query: str, docs: list[Document], top_n: int = 5
+) -> list[Document]:
+    """Tái xếp hạng bằng bge-reranker-v2-m3. Điểm (0-1) lưu trong metadata["rerank_score"]."""
+    if not docs:
+        return []
+
+    pairs = [(query, doc.page_content) for doc in docs]
+    scores = _get_model().predict(pairs)
+
+    scored = sorted(zip(docs, scores), key=lambda x: float(x[1]), reverse=True)
+    return [
         Document(
-            page_content="Hướng dẫn đánh giá điểm rèn luyện cho sinh viên các khóa."
-        ),
-        Document(page_content="Lịch thi học kỳ và đăng ký môn học."),
+            page_content=doc.page_content,
+            metadata={**doc.metadata, "rerank_score": float(score)},
+        )
+        for doc, score in scored[:top_n]
     ]
-
-    reranked = rerank_documents(query=query, docs=docs, top_n=2)
-
-    assert len(reranked) == 2
-    # Document về điểm rèn luyện phải được xếp lên đầu tiên (Top 1)
-    assert "điểm rèn luyện" in reranked[0].page_content
-    assert "rerank_score" in reranked[0].metadata

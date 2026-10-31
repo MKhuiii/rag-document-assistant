@@ -55,7 +55,7 @@ if prompt := st.chat_input("Hỏi bất kỳ điều gì về tài liệu của 
             res = requests.post(
                 f"{API_URL}/chats",
                 json={"question": prompt, "history": history_data},
-                timeout=120,  # Cho phép tối đa 120s để LLM suy luận
+                timeout=300,  # Cho phép tối đa 120s để LLM suy luận
             )
             if res.status_code == 200:
                 answer = res.json()["answer"]
