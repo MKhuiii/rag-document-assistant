@@ -1,6 +1,7 @@
 fastapi
 flashrank
 uvicorn
+sentence-transformers
 streamlit
 unstructured
 rank_bm25
