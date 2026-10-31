@@ -11,7 +11,7 @@ from src.rag.retrievers import get_hybrid_retriever
 
 # Điểm của reranker đa ngữ thường bão hòa (~0.99), nên ngưỡng 0.0 gần như không lọc gì.
 # Việc quyết định "không có thông tin" do LLM trả NO_INFO đảm nhiệm.
-RERANK_THRESHOLD = 0.0
+RERANK_THRESHOLD = 0.1
 RERANK_TOP_N = 5
 MAX_EXPANDED_QUERIES = 3
 
