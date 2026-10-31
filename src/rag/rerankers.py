@@ -1,33 +1,24 @@
-
-from flashrank import Ranker, RerankRequest
 from langchain_core.documents import Document
+from sentence_transformers import CrossEncoder
 
-ranker = Ranker(model_name="ms-marco-MiniLM-L-12-v2")
+_model = CrossEncoder("BAAI/bge-reranker-v2-m3", max_length=512)
 
 
 def rerank_documents(
     query: str, docs: list[Document], top_n: int = 5
 ) -> list[Document]:
-    """Tái xếp hạng danh sách tài liệu sử dụng FlashRank Cross-Encoder."""
+    """Tái xếp hạng bằng bge-reranker-v2-m3. Điểm (0-1) lưu trong metadata["rerank_score"]."""
     if not docs:
         return []
 
-    # Chuyển đổi dữ liệu sang định dạng yêu cầu của FlashRank
-    pass_passages = [
-        {"id": idx, "text": doc.page_content, "meta": doc.metadata}
-        for idx, doc in enumerate(docs)
-    ]
+    pairs = [(query, doc.page_content) for doc in docs]
+    scores = _model.predict(pairs)
 
-    rerank_req = RerankRequest(query=query, passages=pass_passages)
-    results = ranker.rerank(rerank_req)
-
-    # Lọc lấy Top-N tài liệu có điểm cao nhất
-    ranked_docs = []
-    for item in results[:top_n]:
-        doc = Document(
-            page_content=item["text"],
-            metadata={**item["meta"], "rerank_score": item["score"]},
+    scored = sorted(zip(docs, scores), key=lambda x: float(x[1]), reverse=True)
+    return [
+        Document(
+            page_content=doc.page_content,
+            metadata={**doc.metadata, "rerank_score": float(score)},
         )
-        ranked_docs.append(doc)
-
-    return ranked_docs
+        for doc, score in scored[:top_n]
+    ]
