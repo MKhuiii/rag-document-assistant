@@ -1,7 +1,12 @@
+from functools import lru_cache
+
 from langchain_core.documents import Document
 from sentence_transformers import CrossEncoder
 
-_model = CrossEncoder("BAAI/bge-reranker-v2-m3", max_length=512)
+
+@lru_cache(maxsize=1)
+def _get_model() -> CrossEncoder:
+    return CrossEncoder("BAAI/bge-reranker-v2-m3", max_length=512)
 
 
 def rerank_documents(
@@ -12,7 +17,7 @@ def rerank_documents(
         return []
 
     pairs = [(query, doc.page_content) for doc in docs]
-    scores = _model.predict(pairs)
+    scores = _get_model().predict(pairs)
 
     scored = sorted(zip(docs, scores), key=lambda x: float(x[1]), reverse=True)
     return [
