@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = ""
 
     # Ollama
-    OLLAMA_MODEL: str = "qwen2.5:7b"
+    OLLAMA_MODEL: str = "qwen3:8b"
     OLLAMA_HOST: str = "http://127.0.0.1:11434"
 
     # Embedding
