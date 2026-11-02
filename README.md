@@ -9,18 +9,17 @@
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
 
-## 🌟 Highlights
+## 🌟 Highlights (v0.2.0 Updates)
 
-- **100% Local & Privacy-First:** Chạy hoàn toàn Offline trên máy cá nhân với Ollama (`qwen2.5:7b`, `bge-m3`) và PostgreSQL (`pgvector`), đảm bảo tuyệt đối an toàn dữ liệu.
+- **100% Local & Privacy-First:** Chạy hoàn toàn Offline trên máy cá nhân với Ollama (`qwen3:8b`, `bge-m3`) và PostgreSQL (`pgvector`), đảm bảo tuyệt đối an toàn dữ liệu.
 
-- **Multi-Format Document Ingestion:** Tự động đọc, phân tách (chunking) và đánh chỉ mục vector cho các định dạng tài liệu phổ biến (`.pdf`, `.txt`, `.docx`).
+- **Advanced Hybrid Search & Re-ranking:** Kết hợp truy vấn từ khóa (BM25) và tìm kiếm ngữ nghĩa (Dense Vector) cùng bộ lọc Re-ranker loại bỏ các đoạn văn bản kém liên quan dưới ngưỡng điểm quy định (RERANK_THRESHOLD).
 
-- **Production-Ready REST API:** Xây dựng trên FastAPI chuẩn hóa kiến trúc Route, hỗ trợ Dependency Injection, ThreadPool cách ly I/O blocking và xử lý lịch sử trò chuyện (Chat History).
+- **Anti-Prompt Injection Architecture:** Tái cấu trúc RAG Chain theo luồng Condense Question 2 bước, tách biệt hoàn toàn {chat_history} khỏi QA Prompt để triệt tiêu nguy cơ bị thao túng qua lịch sử trò chuyện.
 
-- **Intuitive Web Interface:** Giao diện Streamlit mượt mà, hỗ trợ tải tài liệu và trò chuyện tương tác trực tiếp với RAG Chain.
+- **Multi-tier Language & Output Guardrails:** Tích hợp lingua-language-detector, cấu hình temperature=0.0 và bộ lọc Regex chặn triệt để hiện tượng trôi tiếng Trung (Language Drift) của mô hình Qwen; chuẩn hóa đầu ra theo cấu trúc FACTS: / ANSWER:.
 
-- **High Code Quality & Test Suite:** Đạt chuẩn kiểm tra mã nguồn khắt khe với Ruff Linter và tích hợp bộ kiểm thử tự động Pytest (Mock & Real Integration).
-
+- **Production-Grade Infrastructure:** Tự động khôi phục kết nối PostgreSQL (pool_pre_ping=True, pool_recycle=300) xử lý triệt để lỗi đứt socket (0x00002745), chuẩn hóa FastAPI endpoints và tối ưu hóa thời gian phản hồi chống timeout Frontend.
 
 ## ℹ️ Overview
 
@@ -70,3 +69,15 @@ streamlit run app.py
    # Mô hình LLM (Suy luận & Trả lời câu hỏi)
    ollama pull qwen2.5:7b
    ```
+**Cài đặt Python Dependencies**
+  Khởi tạo môi trường ảo và cài đặt thư viện:
+  ```bash
+  python -m venv venv
+  
+   # Windows:
+   .\venv\Scripts\activate
+   # Linux/macOS:
+   source venv/bin/activate
+
+   pip install -r requirements.txt
+  ```
