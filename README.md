@@ -67,7 +67,7 @@ streamlit run app.py
    ollama pull bge-m3
 
    # Mô hình LLM (Suy luận & Trả lời câu hỏi)
-   ollama pull qwen2.5:7b
+   ollama pull qwen3:8b
    ```
 **Cài đặt Python Dependencies**
   Khởi tạo môi trường ảo và cài đặt thư viện:
